@@ -72,10 +72,9 @@ async def create_account(details: signup):
     try:
         checkPasscode = json.loads(Signupauth.objects.get(
             authcode=details.passcode).to_json())
-        checkPasscodee = Signupauth.objects.get(
+        getauthdetails = Signupauth.objects.get(
             authcode=details.passcode)
-        getphone = checkPasscodee.phonenumber
-        print(getphone)
+        getphone = getauthdetails.phonenumber
 
         try:
             checkE = json.loads(Account.objects.get(
