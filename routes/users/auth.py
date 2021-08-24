@@ -35,7 +35,7 @@ class logIn(BaseModel):
 
 
 class signup(BaseModel):
-    phn: str
+    #phn: str
     password: str
     passcode: str
 
@@ -68,27 +68,27 @@ async def login_account(details: logIn):
 
 @aff.post("/signup", tags=["users"])
 async def create_account(details: signup):
-    phnum= details.phn
+    #phnum = details.phn
     try:
         checkPasscode = json.loads(Signupauth.objects.get(
             authcode=details.passcode).to_json())
-        if len(details.phn) > 11 or len(details.phn) < 11:
+        checkPasscodee = Signupauth.objects.get(
+            authcode=details.passcode)
+        getphone = checkPasscodee.phonenumber
+        print(getphone)
+
+        try:
+            checkE = json.loads(Account.objects.get(
+                phonenumber=getphone).to_json())
             raise HTTPException(
-                status_code=400, detail="phone number longer or shorter than 11..")
-        else:
-            pCode = details.passcode
-            try:
-                checkE = json.loads(Account.objects.get(
-                    phonenumber=details.phn).to_json())
-                raise HTTPException(
-                    status_code=400, detail="account already exist..")
-            except Account.DoesNotExist:
-                hashPass = auth_handler.get_password_hash(details.password)
-                getDetails = Account(phonenumber=details.phn,
-                                     password=hashPass)
-                getDetails.save()
-                token = auth_handler.encode_token(phnum)
-                return {"message": "account created...", "token": token}
+                status_code=400, detail="account already exist..")
+        except Account.DoesNotExist:
+            hashPass = auth_handler.get_password_hash(details.password)
+            getDetails = Account(phonenumber=getphone,
+                                 password=hashPass)
+            getDetails.save()
+            token = auth_handler.encode_token(getphone)
+            return {"message": "account created...", "token": token}
 
     except Signupauth.DoesNotExist:
         raise HTTPException(
