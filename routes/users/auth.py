@@ -10,6 +10,7 @@ import json
 from bson.objectid import ObjectId
 from pydantic import BaseModel
 from model.users.createacc import Account
+from model.users.medicalcard import Card
 from model.superadmin import Signupauth
 import os
 from passlib.context import CryptContext
@@ -85,7 +86,9 @@ async def create_account(details: signup):
             hashPass = auth_handler.get_password_hash(details.password)
             getDetails = Account(phonenumber=getphone,
                                  password=hashPass)
-            getDetails.save()
+            create_consultations = Card(phonenumber=getphone)
+            create_consultations.save() #create consultation table
+            getDetails.save()      #create profile
             token = auth_handler.encode_token(getphone)
             return {"message": "account created...", "token": token}
 
