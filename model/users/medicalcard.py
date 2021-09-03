@@ -18,9 +18,12 @@ class Consultations(EmbeddedDocument):
     dx = StringField()
     invx = StringField()
     rx = StringField()
+    doc_id = StringField()
 
 
 class Card(Document):
-    data= ListField(EmbeddedDocumentListField(Consultations))
+    #data= DictField(EmbeddedDocumentListField(Consultations))
+    data = ListField()
+    data2 = DictField()
     phonenumber = StringField(max_length=11)
     
