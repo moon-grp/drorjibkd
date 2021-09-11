@@ -3,6 +3,7 @@ from routes.superadmin.authsignup import supadmin
 from routes.superadmin.signin import superAdmin
 from routes.users.auth import aff
 from routes.superadmin.userActions.card import cardops
+from routes.users.profile import profile
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -23,3 +24,4 @@ app.include_router(supadmin, prefix="/api/v1/admin")
 app.include_router(superAdmin, prefix="/api/v1/admin")
 app.include_router(cardops, prefix="/api/v1/admin")
 app.include_router(aff, prefix="/api/v1/users")
+app.include_router(profile, prefix="/api/v1/users")
