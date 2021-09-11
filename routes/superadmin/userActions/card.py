@@ -64,7 +64,7 @@ async def get_consultations(phn):
     get_record = Card.objects.get(phonenumber=phn).to_json()
     all_cons = json.loads(get_record)
     return  {
-        "data": all_cons["data"]
+        "data": all_cons["data2"]
     }
 
 @cardops.get("/getconsultation/{phn}", tags=["admin"])
